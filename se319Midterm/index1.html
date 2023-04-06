@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="javascript" href="index.js">
+    <style>
+        body{
+   
+            background-color: lightgoldenrodyellow;
+            font-family: Helvetica, sans-serif;
+
+        }
+        .topnav {
+    background-color: orchid;
+    overflow: hidden;
+    font-family: Helvetica, sans-serif;
+}
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .topnav a:hover{
+    background-color: #ffa1a1;
+    color: black;
+  }
+
+  
+  .topnav a.active{
+    background-color: lightcoral;
+    color: white;
+  }
+
+  .product div
+  {
+    color:black;
+    font-size: medium;
+    text-align: left;
+    max-width: 200px;
+    line-height: 20px;
+    border: 1px solid lightgrey;
+    text-align: center;
+  }
+
+  #container{
+    display: flex;
+    justify-content: space-around;
+  }
+
+  img{
+    width: 200px;
+    display: block;
+    margin: auto;
+  }
+
+    </style>
+</head>
+<body>
+    <script type="module" src="./index.js"></script>
+    <div class="topnav">
+        <a class="active" href="./index.html">Regular Goods</a>
+        <a href="gluten.html">Gluten-Free Bakery</a>
+        <a href="about.html">About</a>
+    </div>
+    
+    <div id="container">
+        <div id="Blueberry Muffin" class="product"></div>
+        <div id="Doughnut" class="product"></div>
+        <div id="White Cupcake" class="product"></div>
+    </div>
+
+    <script type="text/javascript">
+    fetch("./data.json")
+            .then(function (response){
+                return response.json();
+            }).then(function (data){
+                appendData(data);
+            }).catch(function (err){
+                console.log('error: ' +err);
+            })
+
+        function appendData(data){
+            for (let productName in data){
+                for (let element of data[productName]) {
+                    if(document.getElementById(element["productName"]) != null){
+                        let mainContainer = document.getElementById(element["productName"]);
+                        console.log(element);
+                        let div2 = document.createElement("div");
+                        div2.innerHTML = `${element["productName"]}<br>$${element["price"]} <br>${element["description"]}`;
+                        
+                        const imageElement = document.createElement('img');
+                        const imageSrc ='data.image/jpg;base64,' + productName.image;
+                        console.log(element["image"]);
+                        imageElement.setAttribute('src',imageSrc);
+                        mainContainer.appendChild(imageElement);
+                        
+                        mainContainer.appendChild(div2);
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
